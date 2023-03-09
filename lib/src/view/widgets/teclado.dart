@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'button_icon.dart';
 import 'buttons.dart';
 
 class TecladoCalculadora extends StatefulWidget {
-  const TecladoCalculadora({Key? key}) : super(key: key);
+  String controllerCalc;
+  TecladoCalculadora({
+    Key? key,
+    required this.controllerCalc,
+  }) : super(key: key);
 
   @override
   State<TecladoCalculadora> createState() => _TecladoCalculadoraState();
 }
 
 class _TecladoCalculadoraState extends State<TecladoCalculadora> {
+  int? number;
+
+  void addNumber() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    ColorScheme cores = Theme.of(context).colorScheme;
     return Container(
-      padding: const EdgeInsets.all(
-        16,
+      margin: const EdgeInsets.all(0),
+      padding: const EdgeInsets.only(
+        top: 16,
+        left: 16,
+        right: 16,
       ),
-      height: MediaQuery.of(context).size.height / 1.4,
+      height: MediaQuery.of(context).size.height / 1.43,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
+        color: cores.onBackground.withOpacity(0.3),
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(40),
           topLeft: Radius.circular(40),
@@ -28,91 +43,120 @@ class _TecladoCalculadoraState extends State<TecladoCalculadora> {
       ),
       child: GridView.count(
         primary: false,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(
+          //top: 32,
+          left: 10,
+          right: 10,
+          //bottom: 32,
+        ),
         crossAxisCount: 4,
         mainAxisSpacing: 20,
         crossAxisSpacing: 20,
-        children: const [
+        children: [
           ButtonCalculator(
             simbolo: "AC",
-            corSimbolo: Colors.greenAccent,
+            corSimbolo: const Color(0xFF6BE7C4),
+            onTap: () {},
           ),
-          ButtonCalculator(
-            simbolo: "+/-",
-            corSimbolo: Colors.greenAccent,
+          ButtonIcon(
+            icon: FontAwesomeIcons.plusMinus,
+            corIcon: Color(0xFF6BE7C4),
+            onTap: () {},
           ),
-          ButtonCalculator(
-            simbolo: "%",
-            corSimbolo: Colors.greenAccent,
+          ButtonIcon(
+            icon: FontAwesomeIcons.percent,
+            corIcon: Color(0xFF6BE7C4),
+            onTap: () {},
           ),
-          ButtonCalculator(
-            simbolo: "/",
-            corSimbolo: Colors.redAccent,
+          ButtonIcon(
+            icon: FontAwesomeIcons.divide,
+            corIcon: Colors.redAccent.shade400,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "7",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {
+              widget.controllerCalc = "7";
+              print("Pressed");
+              print(widget.controllerCalc);
+            },
           ),
           ButtonCalculator(
             simbolo: "8",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "9",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
-          ButtonCalculator(
-            simbolo: "X",
-            corSimbolo: Colors.redAccent,
+          ButtonIcon(
+            icon: FontAwesomeIcons.xmark,
+            corIcon: Colors.redAccent.shade400,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "4",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "5",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "6",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
-          ButtonCalculator(
-            simbolo: "-",
-            corSimbolo: Colors.redAccent,
+          ButtonIcon(
+            icon: FontAwesomeIcons.minus,
+            corIcon: Colors.redAccent.shade400,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "1",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "2",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "3",
-            corSimbolo: Colors.white,
-          ),
-          ButtonCalculator(
-            simbolo: "+",
-            corSimbolo: Colors.redAccent,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
           ButtonIcon(
-            icon: Icons.replay,
-            corIcon: Colors.white,
+            icon: FontAwesomeIcons.plus,
+            corIcon: Colors.redAccent.shade400,
+            onTap: () {},
+          ),
+          ButtonIcon(
+            icon: FontAwesomeIcons.rotateLeft,
+            corIcon: cores.background,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: "0",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
           ButtonCalculator(
             simbolo: ".",
-            corSimbolo: Colors.white,
+            corSimbolo: cores.background,
+            onTap: () {},
           ),
-          ButtonCalculator(
-            simbolo: "=",
-            corSimbolo: Colors.redAccent,
-          ),
+          ButtonIcon(
+            icon: FontAwesomeIcons.equals,
+            corIcon: Colors.redAccent.shade400,
+            onTap: () {},
+          )
         ],
       ),
     );
