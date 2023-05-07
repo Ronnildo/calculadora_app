@@ -1,4 +1,10 @@
 class Operations {
+  String expressao;
+
+  Operations({
+    required this.expressao,
+  });
+
   int add(String calculo) {
     return 0;
   }

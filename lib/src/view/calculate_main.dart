@@ -17,27 +17,30 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
-  TextEditingController _controller = TextEditingController();
-  String calc = "";
-
-  void calculate(String simb) {
-    calc = _controller.text;
-    if (simb == "=") {
-      print(calc);
-      print(calc.length);
-    } else if (simb == "") {
-      _controller.text = "";
-    } else if (simb == "del") {
-      String delete = "";
-      for (var i = 0; i < calc.length - 1; i++) {
-        delete += calc[i];
-      }
+  String expr = "";
+  String resultado = "0";
+  String guardaExpr = "";
+  void testeMuda(String muda) {
+    guardaExpr = expr;
+    if (expr == "0" || muda == "AC") {
       setState(() {
-        _controller.text = delete;
+        expr = "";
+        guardaExpr = "";
+        resultado = "0";
+      });
+    } else if (muda == "+\n-" || muda == "%") {
+      setState(() {
+        expr += "";
+      });
+    } else if (muda == "=") {
+      setState(() {
+        expr = "";
+        resultado = "1";
       });
     } else {
       setState(() {
-        _controller.text += simb;
+        expr += muda;
+        guardaExpr = expr;
       });
     }
   }
@@ -90,64 +93,35 @@ class _CalculatorState extends State<Calculator> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                right: 16.0,
-                bottom: 20,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _controller.text,
-                        style: TextStyle(
-                          color: cores.background,
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.3,
-                        height: 50,
-                        child: TextField(
-                          controller: _controller,
-                          keyboardType: TextInputType.text,
-                          //enabled: false,
-                          textAlign: TextAlign.end,
-                          decoration: InputDecoration(
-                            hintText: "0",
-                            hintStyle: TextStyle(
-                              color: cores.background,
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          style: TextStyle(
-                            color: cores.background,
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  guardaExpr,
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w400,
                   ),
-                ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  expr != "" ? expr : resultado,
+                  style: const TextStyle(
+                    fontSize: 60,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             Container(
               margin: const EdgeInsets.all(0),
-              padding: const EdgeInsets.only(
-                top: 16,
-                left: 16,
-                right: 16,
-              ),
-              height: MediaQuery.of(context).size.height / 1.43,
+              padding: const EdgeInsets.all(10),
+              height: MediaQuery.of(context).size.height / 1.6,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: cores.onBackground.withOpacity(0.3),
@@ -158,12 +132,6 @@ class _CalculatorState extends State<Calculator> {
               ),
               child: GridView.count(
                 primary: false,
-                padding: const EdgeInsets.only(
-                  //top: 32,
-                  left: 10,
-                  right: 10,
-                  //bottom: 32,
-                ),
                 crossAxisCount: 4,
                 mainAxisSpacing: 20,
                 crossAxisSpacing: 20,
@@ -171,109 +139,149 @@ class _CalculatorState extends State<Calculator> {
                   ButtonCalculator(
                     simbolo: "AC",
                     corSimbolo: const Color(0xFF6BE7C4),
-                    onTap: () => calculate(""),
+                    onTap: () {
+                      print("AC");
+                      testeMuda("AC");
+                    },
                   ),
                   ButtonIcon(
                     icon: FontAwesomeIcons.plusMinus,
                     corIcon: const Color(0xFF6BE7C4),
-                    onTap: () => calculate("+-"),
+                    onTap: () {
+                      testeMuda("+\n-");
+                    },
                   ),
                   ButtonIcon(
                     icon: FontAwesomeIcons.percent,
                     corIcon: const Color(0xFF6BE7C4),
-                    onTap: () => calculate("%"),
+                    onTap: () {
+                      testeMuda("%");
+                    },
                   ),
                   ButtonIcon(
                     icon: FontAwesomeIcons.divide,
                     corIcon: Colors.redAccent.shade400,
-                    onTap: () => calculate("/"),
+                    onTap: () {
+                      testeMuda("/");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "7",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("7"),
+                    onTap: () {
+                      testeMuda("7");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "8",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("8"),
+                    onTap: () {
+                      testeMuda("8");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "9",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("9"),
+                    onTap: () {
+                      testeMuda("9");
+                    },
                   ),
                   ButtonIcon(
                     icon: FontAwesomeIcons.xmark,
                     corIcon: Colors.redAccent.shade400,
-                    onTap: () => calculate("x"),
+                    onTap: () {
+                      testeMuda("x");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "4",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("4"),
+                    onTap: () {
+                      testeMuda("4");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "5",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("5"),
+                    onTap: () {
+                      testeMuda("5");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "6",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("6"),
+                    onTap: () {
+                      testeMuda("6");
+                    },
                   ),
                   ButtonIcon(
                     icon: FontAwesomeIcons.minus,
                     corIcon: Colors.redAccent.shade400,
-                    onTap: () => calculate("-"),
+                    onTap: () {
+                      testeMuda("-");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "1",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("1"),
+                    onTap: () {
+                      testeMuda("1");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "2",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("2"),
+                    onTap: () {
+                      testeMuda("2");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "3",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("3"),
+                    onTap: () {
+                      testeMuda("3");
+                    },
                   ),
                   ButtonIcon(
                     icon: FontAwesomeIcons.plus,
                     corIcon: Colors.redAccent.shade400,
-                    onTap: () => calculate("+"),
+                    onTap: () {
+                      testeMuda("+");
+                    },
                   ),
                   ButtonIcon(
                     icon: FontAwesomeIcons.rotateLeft,
                     corIcon: cores.background,
-                    onTap: () => calculate("del"),
+                    onTap: () {
+                      setState(() {
+                        expr += "";
+                      });
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: "0",
                     corSimbolo: cores.background,
-                    onTap: () => calculate("0"),
+                    onTap: () {
+                      testeMuda("0");
+                    },
                   ),
                   ButtonCalculator(
                     simbolo: ".",
                     corSimbolo: cores.background,
-                    onTap: () => calculate(","),
+                    onTap: () {
+                      testeMuda(".");
+                    },
                   ),
                   ButtonIcon(
                     icon: FontAwesomeIcons.equals,
                     corIcon: Colors.redAccent.shade400,
-                    onTap: () => calculate("="),
+                    onTap: () {
+                      testeMuda("=");
+                    },
                   )
                 ],
               ),
-            )
-            // TecladoCalculadora(
-            //   controllerCalc: _controller.text,
-            // ),
+            ),
           ],
         ),
       ),

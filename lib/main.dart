@@ -1,3 +1,4 @@
+import 'package:calculator/src/controller/pressed_buttom.dart';
 import 'package:calculator/src/controller/theme_app.dart';
 import 'package:calculator/src/view/calculate_main.dart';
 import 'package:flutter/foundation.dart';
@@ -13,8 +14,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ThemeCubit>(
-      create: (_) => ThemeCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeCubit>(
+          create: (BuildContext context) => ThemeCubit(),
+        ),
+      ],
       child: BlocBuilder<ThemeCubit, ThemeData>(
         builder: (context, state) {
           return MaterialApp(
