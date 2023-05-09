@@ -1,4 +1,5 @@
 import 'package:calculator/src/controller/theme_app.dart';
+import 'package:calculator/src/controller/validate_expression.dart';
 import 'package:calculator/src/view/widgets/teclado.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,10 @@ class _CalculatorState extends State<Calculator> {
         guardaExpr = "";
         resultado = "0";
       });
+    } else if (muda == "x") {
+      setState(() {
+        expr += "*";
+      });
     } else if (muda == "+\n-" || muda == "%") {
       setState(() {
         expr += "";
@@ -48,6 +53,7 @@ class _CalculatorState extends State<Calculator> {
   @override
   Widget build(BuildContext context) {
     ColorScheme cores = Theme.of(context).colorScheme;
+    ValidateExpression validateExpression = ValidateExpression(entrada: expr);
     return Scaffold(
       backgroundColor: cores.primary,
       body: Padding(
@@ -140,7 +146,6 @@ class _CalculatorState extends State<Calculator> {
                     simbolo: "AC",
                     corSimbolo: const Color(0xFF6BE7C4),
                     onTap: () {
-                      print("AC");
                       testeMuda("AC");
                     },
                   ),
@@ -276,7 +281,13 @@ class _CalculatorState extends State<Calculator> {
                     icon: FontAwesomeIcons.equals,
                     corIcon: Colors.redAccent.shade400,
                     onTap: () {
-                      testeMuda("=");
+                      if (validateExpression.validate()) {
+                        testeMuda("=");
+
+                        validateExpression.calculateExpr();
+                      } else {
+                        print("Erro");
+                      }
                     },
                   )
                 ],
