@@ -12,14 +12,4 @@ class ValidateExpression {
       return false;
     }
   }
-
-  void calculateExpr() {
-    print(entrada.length);
-    final exprNum = RegExp(r"([0-9])", multiLine: true);
-    final exprSimbSoma = RegExp(r"[+]");
-    final exprSimbDiv = RegExp(r"[/]");
-    final exprSimbMult = RegExp(r"[*]");
-    final exprSimbSub = RegExp(r"[-]");
-    double resultado = 0;
-  }
 }
